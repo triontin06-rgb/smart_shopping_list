@@ -350,20 +350,48 @@ class _SmartChecklistScreenState
                                 IconButton(
                                   icon: const Icon(
                                     Icons.delete,
-                                    color:
-                                        Colors.red,
+                                    color: Colors.red,
                                   ),
-                                  onPressed:
-                                      () async {
-
-                                    await ApiService
-                                        .deleteChecklist(
-                                      data[index]
-                                              ['id']
-                                          .toString(),
+                                  onPressed: () async {
+                                    bool? confirm = await showDialog<bool>(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text("Konfirmasi Hapus"),
+                                          content: const Text(
+                                            "Apakah Anda yakin ingin menghapus item ini?",
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context, false);
+                                              },
+                                              child: const Text("Tidak"),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.pop(context, true);
+                                              },
+                                              child: const Text("Ya"),
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     );
 
-                                    setState(() {});
+                                    if (confirm == true) {
+                                      await ApiService.deleteChecklist(
+                                        data[index]['id'].toString(),
+                                      );
+
+                                      setState(() {});
+
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text("Data berhasil dihapus"),
+                                        ),
+                                      );
+                                    }
                                   },
                                 ),
                               ],
