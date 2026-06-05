@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:smart_shopping_list/features/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+
+import 'package:smart_shopping_list/features/splash/splash_screen.dart';
+import 'package:smart_shopping_list/providers/theme_provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey =
     GlobalKey<NavigatorState>();
@@ -10,7 +13,12 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,10 +26,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: navigatorKey,
-      home: const SplashScreen(),
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          navigatorKey: navigatorKey,
+
+          theme: ThemeData.light(),
+
+          darkTheme: ThemeData.dark(),
+
+          themeMode: themeProvider.themeMode,
+
+          home: const SplashScreen(),
+        );
+      },
     );
   }
 }

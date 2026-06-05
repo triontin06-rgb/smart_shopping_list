@@ -3,7 +3,8 @@ import 'package:smart_shopping_list/features/auth/login_screen.dart';
 import 'package:smart_shopping_list/features/profile/about_screen.dart';
 import 'package:smart_shopping_list/features/profile/edit_profile_screen.dart';
 import 'package:smart_shopping_list/features/notification/notification_page.dart';
-
+import 'package:provider/provider.dart';
+import 'package:smart_shopping_list/providers/theme_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -13,13 +14,15 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool isDarkMode = false;
-
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.isDarkMode;
+
     return Scaffold(
-      backgroundColor:
-          isDarkMode ? Colors.black : const Color(0xFFF7F4FA),
+      backgroundColor: isDarkMode
+          ? Colors.black
+          : const Color(0xFFF7F4FA),
 
       body: SafeArea(
         child: SingleChildScrollView(
@@ -28,8 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               /// HEADER
               Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Row(
                     children: [
@@ -84,8 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     right: 0,
                     bottom: 0,
                     child: CircleAvatar(
-                      backgroundColor:
-                          const Color(0xFF5E35B1),
+                      backgroundColor: const Color(0xFF5E35B1),
                       radius: 25,
                       child: IconButton(
                         onPressed: () {
@@ -150,11 +151,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
               ),
 
-              /// DARK MODE
+              /// DARK MODE (FIXED)
               Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: SwitchListTile(
                   secondary: const Icon(
@@ -163,9 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   title: const Text("Dark Mode"),
                   value: isDarkMode,
                   onChanged: (value) {
-                    setState(() {
-                      isDarkMode = value;
-                    });
+                    themeProvider.toggleTheme(value);
                   },
                 ),
               ),
@@ -179,7 +177,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const NotificationPage(),
+                      builder: (context) =>
+                          const NotificationPage(),
                     ),
                   );
                 },
@@ -227,13 +226,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   style: OutlinedButton.styleFrom(
-                    padding:
-                        const EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 18,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
@@ -261,6 +258,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required String title,
     required VoidCallback onTap,
   }) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.isDarkMode;
+
     return Card(
       elevation: 0,
       margin: const EdgeInsets.only(bottom: 10),
@@ -269,16 +269,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor:
-              Colors.deepPurple.shade50,
+          backgroundColor: Colors.deepPurple.shade50,
           child: Icon(
             icon,
             color: const Color(0xFF5E35B1),
           ),
         ),
         title: Text(title),
-        trailing:
-            const Icon(Icons.chevron_right),
+        trailing: const Icon(Icons.chevron_right),
         onTap: onTap,
       ),
     );
