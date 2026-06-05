@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   static const String baseUrl =
-      "http://192.168.0.21/smart_shopping_api";
+      "http://192.168.0.7/smart_shopping_api";
 
   static Future login(String email, String password) async {
     var response = await http.post(

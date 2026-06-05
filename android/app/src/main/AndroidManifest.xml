@@ -1,10 +1,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <!-- Izin mengakses internet (wajib untuk FCM & komunikasi ke server PHP) --> 
+    <uses-permission android:name="android.permission.INTERNET"/> 
+    
+    <!-- Izin menampilkan notifikasi (wajib di Android 13 / API 33 ke atas) --> 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/> 
 
     <application
         android:label="smart_shopping_list"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"> <!-- 2. Wajib ditambahkan -->
+
+
+        <meta-data 
+        android:name="com.google.firebase.messaging.default_notification_channel_id" 
+        android:value="high_importance_channel" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

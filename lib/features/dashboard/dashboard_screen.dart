@@ -192,10 +192,10 @@ class DashboardScreen extends StatelessWidget {
                     ),
                   ),
 
-                  /// 🔔 NOTIFIKASI SUDAH AKTIF
+                  /// NOTIFIKASI
                   IconButton(
                     onPressed: () async {
-                      await NotificationService.show(
+                      await NotificationService.showLocalNotification(
                         title: "Notifikasi",
                         body: "Ini test notifikasi berhasil!",
                       );

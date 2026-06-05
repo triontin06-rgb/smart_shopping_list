@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1001414490224",
+    "project_id": "smart-shopping-list-ade62",
+    "storage_bucket": "smart-shopping-list-ade62.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001414490224:android:28075fd6b1619ddebd1cb5",
+        "android_client_info": {
+          "package_name": "com.smart_shopping_list"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMhvbvNMdzRGULH-BAZRmBuyMmpqnbr1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

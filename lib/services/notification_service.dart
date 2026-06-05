@@ -55,7 +55,9 @@ class NotificationService {
         AndroidInitializationSettings('@mipmap/ic_launcher'); 
     const InitializationSettings initSettings = 
         InitializationSettings(android: androidSettings); 
-    await _localNotifications.initialize(initSettings); 
+    await _localNotifications.initialize(
+      settings: initSettings,
+    ); 
   } 
  
   // ── Dengarkan notifikasi FCM di foreground ───────────────────────── 
@@ -84,12 +86,14 @@ class NotificationService {
       priority: Priority.high, 
       showWhen: true, 
     ); 
-    await _localNotifications.show( 
-      id, 
-      title, 
-      body, 
-      const NotificationDetails(android: androidDetails), 
-    ); 
+    await _localNotifications.show(
+      id: id,
+      title: title,
+      body: body,
+      notificationDetails: const NotificationDetails(
+        android: androidDetails,
+      ),
+    );
   } 
  
   // ── Ambil FCM Token perangkat ini ────────────────────────────────── 
