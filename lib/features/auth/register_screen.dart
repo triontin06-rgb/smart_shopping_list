@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/api_service.dart';
 import 'package:smart_shopping_list/features/dashboard/dashboard_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -26,17 +27,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     print(res);
 
     if (res['status'] == 'success') {
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLogin', true);
+      await prefs.setString('email', emailController.text);
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Register berhasil")),
       );
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-        builder: (context) => const DashboardScreen(),
+          builder: (context) => const DashboardScreen(),
         ),
       );
-      
-      Navigator.pop(context);
+
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Register gagal")),
@@ -65,7 +71,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               const SizedBox(height: 20),
 
-              // HEADER
               Row(
                 children: [
                   IconButton(
@@ -93,12 +98,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     borderRadius: BorderRadius.circular(25),
                   ),
 
-                  
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
 
-                        // TAB STYLE
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: const [
@@ -127,7 +130,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         const SizedBox(height: 30),
 
-                        // NAME
                         TextField(
                           controller: nameController,
                           decoration: InputDecoration(
@@ -142,7 +144,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         const SizedBox(height: 15),
 
-                        // EMAIL
                         TextField(
                           controller: emailController,
                           decoration: InputDecoration(
@@ -157,7 +158,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         const SizedBox(height: 15),
 
-                        // PASSWORD
                         TextField(
                           controller: passwordController,
                           obscureText: true,
@@ -175,7 +175,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         const SizedBox(height: 25),
 
-                        // BUTTON REGISTER
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -197,7 +196,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         const SizedBox(height: 20),
 
-                        // PINDAH KE LOGIN
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);

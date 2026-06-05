@@ -3,7 +3,7 @@ import '../../services/api_service.dart';
 import '../../services/auth_service.dart';
 import 'register_screen.dart';
 import 'package:smart_shopping_list/features/dashboard/dashboard_screen.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,17 +24,22 @@ class _LoginScreenState extends State<LoginScreen> {
       passwordController.text,
     );
 
-    print(res); // 🔥 DEBUG
+    print(res);
 
     if (res['status'] == 'success') {
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLogin', true);
+      await prefs.setString('email', emailController.text);
+      await prefs.setString('token', res['token'] ?? '');
+
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Login berhasil")),
-      );
+          .showSnackBar(const SnackBar(content: Text("Login berhasil")));
 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-        builder: (context) => const DashboardScreen(),
+          builder: (context) => const DashboardScreen(),
         ),
       );
 
@@ -56,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true, // 🔥 penting
+      resizeToAvoidBottomInset: true,
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -71,7 +76,6 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const SizedBox(height: 20),
 
-              // TITLE
               Row(
                 children: const [
                   SizedBox(width: 20),
@@ -100,12 +104,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(25),
                   ),
 
-                  // 🔥 INI YANG FIX UTAMA
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
 
-                        // TAB
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: const [
@@ -131,7 +133,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         const SizedBox(height: 30),
 
-                        // EMAIL
                         TextField(
                           controller: emailController,
                           decoration: InputDecoration(
@@ -146,7 +147,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         const SizedBox(height: 15),
 
-                        // PASSWORD
                         TextField(
                           controller: passwordController,
                           obscureText: true,
@@ -174,12 +174,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         const SizedBox(height: 20),
 
-                        // LOGIN BUTTON
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              print("TOMBOL LOGIN DIKLIK"); // 🔥 DEBUG
+                              print("TOMBOL LOGIN DIKLIK");
                               handleLogin();
                             },
                             style: ElevatedButton.styleFrom(
@@ -200,7 +199,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         const SizedBox(height: 15),
 
-                        // GOOGLE
                         SizedBox(
                           width: double.infinity,
                           child: OutlinedButton.icon(
@@ -220,7 +218,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         const SizedBox(height: 20),
 
-                        // PINDAH KE REGISTER
                         TextButton(
                           onPressed: () {
                             Navigator.push(
